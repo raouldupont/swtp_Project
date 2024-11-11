@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: Projekt_Arbeit.Projekt_Anwendung.ProjektAnwendungApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.86 s -- in Projekt_Arbeit.Projekt_Anwendung.ProjektAnwendungApplicationTests

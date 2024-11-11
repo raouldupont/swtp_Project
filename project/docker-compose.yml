@@ -1,0 +1,45 @@
+name: software_project
+services:
+  client:
+    image: "nginx:1.25.3-alpine-slim"
+    container_name: software_webserver
+    ports:
+      - "8081:80"
+    volumes:
+      - ./web/Application:/usr/share/nginx/html
+    networks:
+      - software-network
+
+  dbserver:
+    build: ./db
+    container_name: project_dbserver
+    ports:
+      - 3307:3306
+    networks:
+      - software-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      retries: 10
+      interval: 3s
+      timeout: 30s
+
+
+
+  springserver:
+    build: ./Projekt_Anwendung
+    container_name: software_appserver
+    ports:
+     - 8082:8081
+    depends_on:
+      dbserver:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://dbserver:3306/softwareProject
+      - SPRING_DATASOURCE_USERNAME=root
+    networks:
+     - software-network
+
+networks:
+  software-network:
+    name: software-network
+    driver: bridge
